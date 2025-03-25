@@ -102,11 +102,12 @@
 </head>
 <body>
     <div class="logo">
-        <img src="https://is.gd/hdUVmw" alt="Logo" onerror="this.style.display='none'">
+        <a href="https://is.gd/3XOYod" target="_blank"><img src="https://is.gd/NBZWBY" alt="Logo" onerror="this.style.display='none'"></a>
     </div>
 
-    <div class="form-container" id="form-to-capture">
-        <div class="date">MEU LUCRO HOJE: <span id="current-date"></span></div>
+    <div class="form-container">
+        <div class="date">MEU LUCRO HOJE: <span id="current-date"></span></div><br>
+		<center>Movimento Entregadores PE - Pesquise no Telegram e participe.</center><br>  
 
         <table>
             <tr>
@@ -114,11 +115,11 @@
                 <th>VALOR</th>
             </tr>
             <tr>
-                <td>Preço do combustível (R$):</td>
+                <td>Qual o preço do combustível (R$):</td>
                 <td><input type="number" id="c3" step="0.01" oninput="calculateAll()"></td>
             </tr>
             <tr>
-                <td>KM por litro:</td>
+                <td>Quantos KM a moto faz por litro:</td>
                 <td><input type="number" id="c4" step="0.1" oninput="calculateAll()"></td>
             </tr>
             <tr>
@@ -126,11 +127,11 @@
                 <td><input type="number" id="c5" step="0.1" oninput="calculateAll()"></td>
             </tr>
             <tr>
-                <td>Valor no aplicativo (R$):</td>
+                <td>Quanto fiz nos aplicativos (R$):</td>
                 <td><input type="number" id="c6" step="0.01" oninput="calculateAll()"></td>
             </tr>
             <tr>
-                <td>Corridas finalizadas:</td>
+                <td>Quantidade de corridas finalizadas:</td>
                 <td><input type="number" id="c7" oninput="calculateAll()"></td>
             </tr>
             <tr>
@@ -145,7 +146,7 @@
                 <th>VALOR</th>
             </tr>
             <tr>
-                <td>Custo combustível (R$):</td>
+                <td>Gastei de combustível (R$):</td>
                 <td class="result" id="c11">0.00</td>
             </tr>
             <tr>
@@ -160,31 +161,32 @@
                 <th>VALOR</th>
             </tr>
             <tr>
-                <td>Custo por KM (R$):</td>
+                <td>Quanto meu veículo gasta por KM (R$):</td>
                 <td id="c15">0.00</td>
             </tr>
             <tr>
-                <td>Ganho por KM (R$):</td>
+                <td>Quanto ganhei por cada KM (R$):</td>
                 <td id="c16">0.00</td>
             </tr>
             <tr>
-                <td>Média por corrida (R$):</td>
+                <td>Valor médio por corridas (R$):</td>
                 <td id="c17">0.00</td>
             </tr>
             <tr>
-                <td>Projeção 22 dias (R$):</td>
+                <td>22 dias no mês neste ritmo você ganha (bruto) (R$):</td>
                 <td id="c18">0.00</td>
             </tr>
             <tr>
-                <td>Projeção 30 dias (R$):</td>
+                <td>30 dias no mês neste ritmo você ganha (bruto) (R$):</td>
                 <td id="c19">0.00</td>
             </tr>
         </table>
     </div>
 
+
     <div class="btn-container">
         <button class="action-btn print-btn" onclick="window.print()">Imprimir Relatório</button>
-        <button class="action-btn jpg-btn" onclick="exportToJPG()">Salvar como JPG</button>
+        <button class="action-btn jpg-btn" onclick="exportToJPG()">Salvar como JPG (PC)</button>
     </div>
 
     <script>
