@@ -5,109 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Lucro</title>
     <link rel="icon" href="https://qu.ax/yhxpL.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 10px;
-            font-size: 14px;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .logo img {
-            max-width: 100%;
-            height: auto;
-        }
-        .form-container {
-            border: 2px solid #333;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            background-color: white;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-        }
-        th, td {
-            padding: 6px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        input {
-            width: 100%;
-            padding: 4px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-        }
-        .result {
-            font-weight: bold;
-        }
-        .date {
-            text-align: center;
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        .btn-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .action-btn {
-            flex: 1;
-            padding: 8px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            text-align: center;
-        }
-        .print-btn {
-            background-color: #4CAF50;
-        }
-        .print-btn:hover {
-            background-color: #45a049;
-        }
-        .jpg-btn {
-            background-color: #2196F3;
-        }
-        .jpg-btn:hover {
-            background-color: #0b7dda;
-        }
-        @media print {
-            body {
-                padding: 10px;
-                font-size: 12px;
-            }
-            .form-container {
-                border: 2px solid #000 !important;
-                padding: 8px;
-                page-break-inside: avoid;
-            }
-            table {
-                margin-bottom: 5px;
-            }
-            .btn-container {
-                display: none;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="logo">
-        <a href="https://is.gd/3XOYod" target="_blank"><img src="https://is.gd/NBZWBY" alt="Logo" onerror="this.style.display='none'"></a>
+        <a href="https://is.gd/3XOYod" target="_blank">
+            <img src="https://is.gd/NBZWBY" alt="Logo" onerror="this.style.display='none'">
+        </a>
     </div>
 
-    <div class="form-container">
-        <div class="date">MEU LUCRO HOJE: <span id="current-date"></span></div><br>
-		<center>Movimento Entregadores PE - Pesquise no Telegram e participe.</center><br>  
+    <div class="form-container" id="form-to-capture">
+        <div class="date">MEU LUCRO HOJE: <span id="current-date"></span></div>
+        <br>
+        <center>Movimento Entregadores PE - Pesquise no Telegram e participe.</center>
+        <br>
 
         <table>
             <tr>
@@ -183,64 +95,11 @@
         </table>
     </div>
 
-
     <div class="btn-container">
         <button class="action-btn print-btn" onclick="window.print()">Imprimir Relatório</button>
         <button class="action-btn jpg-btn" onclick="exportToJPG()">Salvar como JPG (PC)</button>
     </div>
 
-    <script>
-        function updateCurrentDate() {
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('pt-BR');
-            document.getElementById('current-date').textContent = dateStr;
-            document.title = "Calculadora de Lucro - " + dateStr;
-        }
-        
-        function calculateAll() {
-            const c3 = parseFloat(document.getElementById('c3').value) || 0;
-            const c4 = parseFloat(document.getElementById('c4').value) || 0;
-            const c5 = parseFloat(document.getElementById('c5').value) || 0;
-            const c6 = parseFloat(document.getElementById('c6').value) || 0;
-            const c7 = parseFloat(document.getElementById('c7').value) || 0;
-            const c8 = parseFloat(document.getElementById('c8').value) || 0;
-            
-            const c11 = c3 / c4 * c5;
-            const c12 = c6 + c8 - c11;
-            
-            document.getElementById('c11').textContent = c11.toFixed(2);
-            document.getElementById('c12').textContent = c12.toFixed(2);
-            document.getElementById('c15').textContent = (c3 / c4).toFixed(2);
-            document.getElementById('c16').textContent = (c5 ? c12 / c5 : 0).toFixed(2);
-            document.getElementById('c17').textContent = (c7 ? c12 / c7 : 0).toFixed(2);
-            document.getElementById('c18').textContent = (c12 * 22).toFixed(2);
-            document.getElementById('c19').textContent = (c12 * 30).toFixed(2);
-        }
-        
-        function exportToJPG() {
-            // Mostra um alerta enquanto processa a imagem
-            alert('Aguarde enquanto geramos a imagem...');
-            
-            // Captura o formulário como imagem
-            html2canvas(document.getElementById('form-to-capture'), {
-                scale: 2, // Aumenta a qualidade da imagem
-                logging: false,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#FFFFFF'
-            }).then(canvas => {
-                // Converte para JPG e faz download
-                const link = document.createElement('a');
-                link.download = 'relatorio-lucro-' + new Date().toLocaleDateString('pt-BR') + '.jpg';
-                link.href = canvas.toDataURL('image/jpeg', 0.9);
-                link.click();
-            });
-        }
-        
-        window.onload = function() {
-            updateCurrentDate();
-            calculateAll();
-        };
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
