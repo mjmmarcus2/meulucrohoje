@@ -202,11 +202,11 @@
         </div>
 
         <div class="results">
-            <h3>Resultados do Dia</h3>
+            <h2>Resultados do Dia</h2>
             <table>
                 <tr>
-                    <th>ITEM</th>
-                    <th>VALOR (R$)</th>
+                    <th>Item</th>
+                    <th>Valor (R$)</th>
                 </tr>
                 <tr>
                     <td>Custo combustível</td>
@@ -217,15 +217,15 @@
                     <td id="custo-ipva">0.00</td>
                 </tr>
                 <tr>
-                    <td>Você gastou de peneu</td>
+                    <td>Custo de pneus por KM</td>
                     <td id="custo-pneus">0.00</td>
                 </tr>
                 <tr>
-                    <td>Você gastou de óleo</td>
+                    <td>Custo de óleo por KM</td>
                     <td id="custo-oleo">0.00</td>
                 </tr>
                 <tr>
-                    <td>Você gastou de freio/tração</td>
+                    <td>Custo de freio/tração por KM</td>
                     <td id="custo-freio">0.00</td>
                 </tr>
                 <tr>
@@ -246,14 +246,14 @@
                 </tr>
             </table>
 
-            <h3>Informações Adicionais</h2>
+            <h2>Informações Adicionais</h2>
             <table>
                 <tr>
-                    <td>Sua moto gasta por KM rodado</td>
+                    <td>Custo por KM rodado</td>
                     <td id="custo-km">R$ 0.00/km</td>
                 </tr>
                 <tr>
-                    <td>Você ganhou hoje por KM rodado</td>
+                    <td>Ganho por KM</td>
                     <td id="ganho-km">R$ 0.00/km</td>
                 </tr>
                 <tr>
@@ -261,19 +261,19 @@
                     <td id="valor-entrega">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção mensal (22 dias) (bruto)</td>
+                    <td>Projeção mensal (22 dias)</td>
                     <td id="projecao-22">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção mensal (30 dias) (bruto)</td>
+                    <td>Projeção mensal (30 dias)</td>
                     <td id="projecao-30">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção anual (22 dias/mês) (bruto)</td>
+                    <td>Projeção anual (22 dias/mês)</td>
                     <td id="projecao-anual-22">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção anual (30 dias/mês) (bruto)</td>
+                    <td>Projeção anual (30 dias/mês)</td>
                     <td id="projecao-anual-30">R$ 0.00</td>
                 </tr>
                 <tr>
@@ -284,7 +284,7 @@
                     <td>Custo total anual (30 dias/mês)</td>
                     <td id="custo-anual-30">R$ 0.00</td>
                 </tr>
-</table>
+            </table>
         </div>
 
         <button class="print-btn" onclick="window.print()">Imprimir/PDF</button>
@@ -297,100 +297,165 @@
         <button id="acceptCookies">Aceitar</button>
     </div>
 
-<script>
-    // [As funções setCookie, getCookie, saveFormData, loadFormData, checkCookieConsent permanecem iguais]
-    
-    // Atualiza a data atual
-    function updateDate() {
-        const now = new Date();
-        const options = { 
-            day: '2-digit', 
-            month: '2-digit', 
-            year: 'numeric',
-            timeZone: 'America/Sao_Paulo'
-        };
-        document.getElementById('current-date').textContent = now.toLocaleDateString('pt-BR', options);
-    }
-
-    // Calcula todos os valores
-    function calculate() {
-        // Obter valores dos inputs
-        const recebido = parseFloat(document.getElementById('recebido').value) || 0;
-        const km = parseFloat(document.getElementById('km').value) || 0;
-        const kmLitro = parseFloat(document.getElementById('kmLitro').value) || 1;
-        const entregas = parseInt(document.getElementById('entregas').value) || 0;
-        const alimentacao = parseFloat(document.getElementById('alimentacao').value) || 0;
-        const gorjetas = parseFloat(document.getElementById('gorjetas').value) || 0;
-        const combustivel = parseFloat(document.getElementById('combustivel').value) || 0;
-        const ipva = parseFloat(document.getElementById('ipva').value) || 0;
-        const pneus = parseFloat(document.getElementById('pneus').value) || 0;
-        const oleo = parseFloat(document.getElementById('oleo').value) || 0;
-        const freio = parseFloat(document.getElementById('freio').value) || 0;
-
-        // Realizar cálculos
-        const custoCombustivel = (km / kmLitro) * combustivel;
-        const custoIpva = ipva / 365;
-        const custoPneus = (km / 30000) * pneus;
-        const custoOleo = (km / 2000) * oleo;
-        const custoFreio = (km / 40000) * freio;
-        
-        // Custos totais do VEÍCULO (sem alimentação)
-        const custosVeiculo = custoCombustivel + custoIpva + custoPneus + custoOleo + custoFreio;
-        
-        // Custos totais GERAL (inclui alimentação)
-        const custosTotais = custosVeiculo + alimentacao;
-        
-        const recebidoTotal = recebido + gorjetas;
-        const ganhoBruto = recebidoTotal - custosTotais;
-
-        // Cálculos diários
-        const custoKm = custosVeiculo / (km || 1);
-        const ganhoKm = (recebidoTotal - custosVeiculo) / (km || 1);
-        const valorEntrega = recebidoTotal / (entregas || 1);
-        
-        // Projeções mensais
-        const projecao22 = ganhoBruto * 22;
-        const projecao30 = ganhoBruto * 30;
-        
-        // NOVAS PROJEÇÕES ANUAIS (adicionadas conforme solicitado)
-        const projecaoAnual22 = ganhoBruto * 22 * 12;
-        const projecaoAnual30 = ganhoBruto * 30 * 12;
-        const custoAnual22 = custosTotais * 22 * 12;
-        const custoAnual30 = custosTotais * 30 * 12;
-
-        // Atualizar a interface - resultados do dia
-        document.getElementById('custo-combustivel').textContent = custoCombustivel.toFixed(2);
-        document.getElementById('custo-ipva').textContent = custoIpva.toFixed(2);
-        document.getElementById('custo-pneus').textContent = custoPneus.toFixed(2);
-        document.getElementById('custo-oleo').textContent = custoOleo.toFixed(2);
-        document.getElementById('custo-freio').textContent = custoFreio.toFixed(2);
-        document.getElementById('custo-alimentacao').textContent = alimentacao.toFixed(2);
-        document.getElementById('custos-totais').textContent = custosTotais.toFixed(2);
-        document.getElementById('recebido-total').textContent = recebidoTotal.toFixed(2);
-        document.getElementById('ganho-bruto').textContent = ganhoBruto.toFixed(2);
-
-        // Atualizar informações adicionais
-        document.getElementById('custo-km').textContent = `R$ ${custoKm.toFixed(2)}/km`;
-        document.getElementById('ganho-km').textContent = `R$ ${ganhoKm.toFixed(2)}/km`;
-        document.getElementById('valor-entrega').textContent = `R$ ${valorEntrega.toFixed(2)}`;
-        
-        // Atualizar projeções mensais
-        document.getElementById('projecao-22').textContent = `R$ ${projecao22.toFixed(2)}`;
-        document.getElementById('projecao-30').textContent = `R$ ${projecao30.toFixed(2)}`;
-        
-        // Atualizar NOVAS projeções anuais (adicionadas conforme solicitado)
-        document.getElementById('projecao-anual-22').textContent = `R$ ${projecaoAnual22.toFixed(2)}`;
-        document.getElementById('projecao-anual-30').textContent = `R$ ${projecaoAnual30.toFixed(2)}`;
-        document.getElementById('custo-anual-22').textContent = `R$ ${custoAnual22.toFixed(2)}`;
-        document.getElementById('custo-anual-30').textContent = `R$ ${custoAnual30.toFixed(2)}`;
-
-        // Salva os dados sempre que houver mudanças (se cookies aceitos)
-        if (getCookie("cookieConsent") === "accepted") {
-            saveFormData();
+    <script>
+        // Funções para manipulação de cookies
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
         }
-    }
 
-    // [O restante do código permanece igual]
-</script>
+        function getCookie(name) {
+            const cookieName = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            
+            for(let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        function saveFormData() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                setCookie(input.id, input.value, 30);
+            });
+        }
+
+        function loadFormData() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                const savedValue = getCookie(input.id);
+                if (savedValue !== "") {
+                    input.value = savedValue;
+                }
+            });
+            calculate();
+        }
+
+        // Verifica consentimento de cookies
+        function checkCookieConsent() {
+            if (getCookie("cookieConsent") !== "accepted") {
+                document.getElementById('cookieConsent').style.display = 'block';
+            } else {
+                loadFormData();
+            }
+        }
+
+        // Atualiza a data atual
+        function updateDate() {
+            const now = new Date();
+            const options = { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                timeZone: 'America/Sao_Paulo'
+            };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('pt-BR', options);
+        }
+
+        // Calcula todos os valores
+        function calculate() {
+            // Obter valores dos inputs
+            const recebido = parseFloat(document.getElementById('recebido').value) || 0;
+            const km = parseFloat(document.getElementById('km').value) || 0;
+            const kmLitro = parseFloat(document.getElementById('kmLitro').value) || 1;
+            const entregas = parseInt(document.getElementById('entregas').value) || 0;
+            const alimentacao = parseFloat(document.getElementById('alimentacao').value) || 0;
+            const gorjetas = parseFloat(document.getElementById('gorjetas').value) || 0;
+            const combustivel = parseFloat(document.getElementById('combustivel').value) || 0;
+            const ipva = parseFloat(document.getElementById('ipva').value) || 0;
+            const pneus = parseFloat(document.getElementById('pneus').value) || 0;
+            const oleo = parseFloat(document.getElementById('oleo').value) || 0;
+            const freio = parseFloat(document.getElementById('freio').value) || 0;
+
+            // Realizar cálculos
+            const custoCombustivel = (km / kmLitro) * combustivel;
+            const custoIpva = ipva / 365;
+            const custoPneus = (km / 30000) * pneus;
+            const custoOleo = (km / 2000) * oleo;
+            const custoFreio = (km / 40000) * freio;
+            
+            // Custos totais do VEÍCULO (sem alimentação)
+            const custosVeiculo = custoCombustivel + custoIpva + custoPneus + custoOleo + custoFreio;
+            
+            // Custos totais GERAL (inclui alimentação)
+            const custosTotais = custosVeiculo + alimentacao;
+            
+            const recebidoTotal = recebido + gorjetas;
+            const ganhoBruto = recebidoTotal - custosTotais;
+
+            // Cálculos diários
+            const custoKm = custosVeiculo / (km || 1);
+            const ganhoKm = (recebidoTotal - custosVeiculo) / (km || 1);
+            const valorEntrega = recebidoTotal / (entregas || 1);
+            
+            // Projeções mensais
+            const projecao22 = ganhoBruto * 22;
+            const projecao30 = ganhoBruto * 30;
+            
+            // Projeções anuais
+            const projecaoAnual22 = ganhoBruto * 22 * 12;
+            const projecaoAnual30 = ganhoBruto * 30 * 12;
+            const custoAnual22 = custosTotais * 22 * 12;
+            const custoAnual30 = custosTotais * 30 * 12;
+
+            // Atualizar a interface
+            document.getElementById('custo-combustivel').textContent = custoCombustivel.toFixed(2);
+            document.getElementById('custo-ipva').textContent = custoIpva.toFixed(2);
+            document.getElementById('custo-pneus').textContent = custoPneus.toFixed(2);
+            document.getElementById('custo-oleo').textContent = custoOleo.toFixed(2);
+            document.getElementById('custo-freio').textContent = custoFreio.toFixed(2);
+            document.getElementById('custo-alimentacao').textContent = alimentacao.toFixed(2);
+            document.getElementById('custos-totais').textContent = custosTotais.toFixed(2);
+            document.getElementById('recebido-total').textContent = recebidoTotal.toFixed(2);
+            document.getElementById('ganho-bruto').textContent = ganhoBruto.toFixed(2);
+
+            document.getElementById('custo-km').textContent = `R$ ${custoKm.toFixed(2)}/km`;
+            document.getElementById('ganho-km').textContent = `R$ ${ganhoKm.toFixed(2)}/km`;
+            document.getElementById('valor-entrega').textContent = `R$ ${valorEntrega.toFixed(2)}`;
+            document.getElementById('projecao-22').textContent = `R$ ${projecao22.toFixed(2)}`;
+            document.getElementById('projecao-30').textContent = `R$ ${projecao30.toFixed(2)}`;
+            document.getElementById('projecao-anual-22').textContent = `R$ ${projecaoAnual22.toFixed(2)}`;
+            document.getElementById('projecao-anual-30').textContent = `R$ ${projecaoAnual30.toFixed(2)}`;
+            document.getElementById('custo-anual-22').textContent = `R$ ${custoAnual22.toFixed(2)}`;
+            document.getElementById('custo-anual-30').textContent = `R$ ${custoAnual30.toFixed(2)}`;
+
+            // Salva os dados sempre que houver mudanças (se cookies aceitos)
+            if (getCookie("cookieConsent") === "accepted") {
+                saveFormData();
+            }
+        }
+
+        // Configurar eventos quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            checkCookieConsent();
+            
+            // Configurar botão de aceitar cookies
+            document.getElementById('acceptCookies').addEventListener('click', function() {
+                setCookie("cookieConsent", "accepted", 365);
+                document.getElementById('cookieConsent').style.display = 'none';
+                loadFormData();
+            });
+            
+            // Adiciona event listeners a todos os inputs
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculate);
+            });
+
+            // Calcula os valores iniciais
+            calculate();
+        });
+    </script>
 </body>
 </html>
