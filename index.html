@@ -155,15 +155,15 @@
         <div class="form-container">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="recebido">Quanto recebi hoje (R$):</label>
+                    <label for="recebido">💵 Quanto recebi hoje (R$):</label>
                     <input type="number" id="recebido" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="km">Quantos KM Você rodou?: <small><a href="https://g.co/kgs/3cUfHjN" target="_blank">Consulta</a></small></label>  
+                    <label for="km">🏍 Quantos KM Você rodou?: <small><a href="https://g.co/kgs/3cUfHjN" target="_blank">Consulta</a></small></label>  
                     <input type="number" id="km" step="0.1">
                 </div>
                 <div class="form-group">
-                    <label for="kmLitro">KM por litro (consumo da moto): <small><a href="https://www.google.com/search?&q=quantos+km+a+moto+(SUA+MOTO)+faz+por+litro+rodado" target="_blank">Consulta</a></small></label>
+                    <label for="kmLitro">⛽️ KM por litro (consumo da moto): <small><a href="https://www.google.com/search?&q=quantos+km+a+moto+(SUA+MOTO)+faz+por+litro+rodado" target="_blank">Consulta</a></small></label>
                     <input type="number" id="kmLitro" step="0.1">
                 </div>
                 <div class="form-group">
@@ -171,31 +171,31 @@
                     <input type="number" id="entregas">
                 </div>
                 <div class="form-group">
-                    <label for="alimentacao">Custo alimentação/água (R$):</label>
+                    <label for="alimentacao">🍲🥤 Custo alimentação/água (R$):</label>
                     <input type="number" id="alimentacao" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="gorjetas">Gorjetas recebidas (R$):</label>
+                    <label for="gorjetas">💵 Gorjetas recebidas (R$):</label>
                     <input type="number" id="gorjetas" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="combustivel">Preço do combustível (R$/litro):</label>
+                    <label for="combustivel">⛽️ Preço do combustível (R$/litro):</label>
                     <input type="number" id="combustivel" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="ipva">Custo anual do IPVA (R$):</label>
+                    <label for="ipva">📝 Custo anual do IPVA (R$):</label>
                     <input type="number" id="ipva" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="pneus">Custo de um par de pneus (R$):</label>
+                    <label for="pneus">🛞 Custo de um par de pneus (R$):</label>
                     <input type="number" id="pneus" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="oleo">Custo do óleo (R$):</label>
+                    <label for="oleo">🛢 Custo do óleo (R$):</label>
                     <input type="number" id="oleo" step="0.01">
                 </div>
                 <div class="form-group">
-                    <label for="freio">Custo de tração + pastilha de freio (R$):</label>
+                    <label for="freio">⚙️ Custo de tração + pastilha de freio (R$):</label>
                     <input type="number" id="freio" step="0.01">
                 </div>
             </div>
@@ -209,80 +209,80 @@
                     <th>Valor (R$)</th>
                 </tr>
                 <tr>
-                    <td>Custo combustível</td>
+                    <td>⛽️ Você gastou de combustível</td>
                     <td id="custo-combustivel">0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo diário do IPVA</td>
+                    <td>📝 Custo diário do IPVA</td>
                     <td id="custo-ipva">0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo de pneus por KM</td>
+                    <td>🛞 Você gastou de peneu</td>
                     <td id="custo-pneus">0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo de óleo por KM</td>
+                    <td>🛢 Você gastou de óleo</td>
                     <td id="custo-oleo">0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo de freio/tração por KM</td>
+                    <td>⚙️ Custo de freio/tração por KM</td>
                     <td id="custo-freio">0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo alimentação/água</td>
+                    <td>🍲🥤 Custo alimentação/água</td>
                     <td id="custo-alimentacao">0.00</td>
                 </tr>
                 <tr class="highlight">
-                    <td><strong>Custos totais</strong></td>
-                    <td id="custos-totais">0.00</td>
+                    <td  style="background-color: #FF6347;"><strong>💸 Custos totais</strong></td>
+                    <td id="custos-totais"  style="background-color: #FF6347;">0.00</td>
                 </tr>
                 <tr>
-                    <td>Recebido + Gorjetas</td>
+                    <td>💵 Recebido + Gorjetas</td>
                     <td id="recebido-total">0.00</td>
                 </tr>
                 <tr class="highlight">
-                    <td><strong>Ganho bruto</strong></td>
-                    <td id="ganho-bruto">0.00</td>
+                    <td  style="background-color: #98FB98;"><strong>💵 Seu Ganho bruto</strong></td>
+                    <td id="ganho-bruto" style="background-color: #98FB98;">0.00</td>
                 </tr>
             </table>
 
             <h2>Informações Adicionais</h2>
             <table>
                 <tr>
-                    <td>Custo por KM rodado</td>
+                    <td>🏍 Sua moto gasta por KM rodado</td>
                     <td id="custo-km">R$ 0.00/km</td>
                 </tr>
                 <tr>
-                    <td>Ganho por KM</td>
+                    <td>💵 Você ganhou em cada KM rodado</td>
                     <td id="ganho-km">R$ 0.00/km</td>
                 </tr>
                 <tr>
-                    <td>Valor médio por entrega hoje</td>
+                    <td>💵 Valor médio por entrega</td>
                     <td id="valor-entrega">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção mensal (22 dias)</td>
-                    <td id="projecao-22">R$ 0.00</td>
+                    <td style="background-color: #98FB98;">💵 Projeção mensal (22 dias)</td>
+                    <td id="projecao-22" style="background-color: #98FB98;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção mensal (30 dias)</td>
-                    <td id="projecao-30">R$ 0.00</td>
+                    <td style="background-color: #98FB98;">💵 Projeção mensal (30 dias)</td>
+                    <td id="projecao-30" style="background-color: #98FB98;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção anual (22 dias/mês)</td>
-                    <td id="projecao-anual-22">R$ 0.00</td>
+                    <td style="background-color: #98FB98;">💵 Projeção anual (22 dias/mês)</td>
+                    <td id="projecao-anual-22" style="background-color: #98FB98;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Projeção anual (30 dias/mês)</td>
-                    <td id="projecao-anual-30">R$ 0.00</td>
+                    <td  style="background-color: #98FB98;">💵 Projeção anual (30 dias/mês)</td>
+                    <td id="projecao-anual-30" style="background-color: #98FB98;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo total anual (22 dias/mês)</td>
-                    <td id="custo-anual-22">R$ 0.00</td>
+                    <td  style="background-color: #FF6347;">💸 Custo total anual (22 dias/mês)</td>
+                    <td id="custo-anual-22"  style="background-color: #FF6347;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td>Custo total anual (30 dias/mês)</td>
-                    <td id="custo-anual-30">R$ 0.00</td>
+                    <td  style="background-color: #FF6347;">💸 Custo total anual (30 dias/mês)</td>
+                    <td id="custo-anual-30"  style="background-color: #FF6347;">R$ 0.00</td>
                 </tr>
             </table>
         </div>
