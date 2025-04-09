@@ -3,103 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Lucro</title>
+    <meta name="description" content="Planilha para cálculo de lucro diário de motoboys, incluindo custos operacionais, ganhos e projeções mensais. Calcule automaticamente seu lucro com base em quilometragem, combustível, manutenção e outros fatores.">
+    <title>Meu Lucro Hoje - Motoboy</title>
     <link rel="icon" href="https://qu.ax/yhxpL.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+        .form-container {
+            border: 2px solid #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            font-weight: bold;
+            background-color: #e6f7ff;
+        }
+        .print-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 15px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+        }
+        .cookie-consent button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        @media print {
+            .print-btn, .cookie-consent {
+                display: none;
+            }
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="logo">
-        <a href="https://is.gd/3XOYod" target="_blank">
-            <img src="https://is.gd/NBZWBY" alt="Logo" onerror="this.style.display='none'">
-        </a>
+    <div class="container">
+        <div class="header">
+            <img src="https://is.gd/hdUVmw" alt="Logo Meu Lucro Hoje">
+            <h1>Meu lucro Hoje - <span id="current-date"></span></h1>
+        </div>
+
+        <div class="form-container">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="recebido">Quanto recebi hoje (R$):</label>
+                    <input type="number" id="recebido" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="km">Quantos KM Você rodou?:</label>
+                    <input type="number" id="km" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="kmLitro">KM por litro (consumo da moto):</label>
+                    <input type="number" id="kmLitro" step="0.1">
+                    <small><a href="https://www.google.com/search?&q=quantos+km+a+moto+(SUA+MOTO)+faz+por+litro+rodado" target="_blank">Consulta</a></small>
+                </div>
+                <div class="form-group">
+                    <label for="entregas">Você fez quantas entregas hoje?:</label>
+                    <input type="number" id="entregas">
+                </div>
+                <div class="form-group">
+                    <label for="alimentacao">Custo alimentação/água (R$):</label>
+                    <input type="number" id="alimentacao" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="gorjetas">Gorjetas recebidas (R$):</label>
+                    <input type="number" id="gorjetas" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="combustivel">Preço do combustível (R$/litro):</label>
+                    <input type="number" id="combustivel" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="ipva">Custo anual do IPVA (R$):</label>
+                    <input type="number" id="ipva" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="pneus">Custo de um par de pneus (R$):</label>
+                    <input type="number" id="pneus" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="oleo">Custo do óleo (R$):</label>
+                    <input type="number" id="oleo" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="freio">Custo de tração + pastilha de freio (R$):</label>
+                    <input type="number" id="freio" step="0.01">
+                </div>
+            </div>
+        </div>
+
+        <div class="results">
+            <h2>Resultados do Dia</h2>
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Valor (R$)</th>
+                </tr>
+                <tr>
+                    <td>Custo combustível</td>
+                    <td id="custo-combustivel">0.00</td>
+                </tr>
+                <tr>
+                    <td>Custo diário do IPVA</td>
+                    <td id="custo-ipva">0.00</td>
+                </tr>
+                <tr>
+                    <td>Custo de pneus por KM</td>
+                    <td id="custo-pneus">0.00</td>
+                </tr>
+                <tr>
+                    <td>Custo de óleo por KM</td>
+                    <td id="custo-oleo">0.00</td>
+                </tr>
+                <tr>
+                    <td>Custo de freio/tração por KM</td>
+                    <td id="custo-freio">0.00</td>
+                </tr>
+                <tr>
+                    <td>Custo alimentação/água</td>
+                    <td id="custo-alimentacao">0.00</td>
+                </tr>
+                <tr class="highlight">
+                    <td><strong>Custos totais</strong></td>
+                    <td id="custos-totais">0.00</td>
+                </tr>
+                <tr>
+                    <td>Recebido + Gorjetas</td>
+                    <td id="recebido-total">0.00</td>
+                </tr>
+                <tr class="highlight">
+                    <td><strong>Ganho bruto</strong></td>
+                    <td id="ganho-bruto">0.00</td>
+                </tr>
+            </table>
+
+            <h2>Informações Adicionais</h2>
+            <table>
+                <tr>
+                    <td>Custo por KM rodado</td>
+                    <td id="custo-km">R$ 0.00/km</td>
+                </tr>
+                <tr>
+                    <td>Ganho por KM</td>
+                    <td id="ganho-km">R$ 0.00/km</td>
+                </tr>
+                <tr>
+                    <td>Valor médio por entrega hoje</td>
+                    <td id="valor-entrega">R$ 0.00</td>
+                </tr>
+                <tr>
+                    <td>Projeção mensal (22 dias)</td>
+                    <td id="projecao-22">R$ 0.00</td>
+                </tr>
+                <tr>
+                    <td>Projeção mensal (30 dias)</td>
+                    <td id="projecao-30">R$ 0.00</td>
+                </tr>
+            </table>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">Imprimir/PDF</button>
     </div>
 
-    <div class="form-container" id="form-to-capture">
-        <div class="date">MEU LUCRO HOJE: <span id="current-date"></span></div>
-        <br>
-        <center>Movimento Entregadores PE - Pesquise no Telegram e participe.</center>
-        <br>
-
-        <table>
-            <tr>
-                <th width="60%">ENTRADAS</th>
-                <th>VALOR</th>
-            </tr>
-            <tr>
-                <td>Qual o preço do combustível (R$):</td>
-                <td><input type="number" id="c3" step="0.01" oninput="calculateAll()"></td>
-            </tr>
-            <tr>
-                <td>Quantos KM a moto faz por litro:</td>
-                <td><input type="number" id="c4" step="0.1" oninput="calculateAll()"></td>
-            </tr>
-            <tr>
-                <td>Quilômetros Rodados:</td>
-                <td><input type="number" id="c5" step="0.1" oninput="calculateAll()"></td>
-            </tr>
-            <tr>
-                <td>Quanto fiz nos aplicativos (R$):</td>
-                <td><input type="number" id="c6" step="0.01" oninput="calculateAll()"></td>
-            </tr>
-            <tr>
-                <td>Quantidade de corridas finalizadas:</td>
-                <td><input type="number" id="c7" oninput="calculateAll()"></td>
-            </tr>
-            <tr>
-                <td>Gorjetas (R$):</td>
-                <td><input type="number" id="c8" step="0.01" oninput="calculateAll()"></td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <th width="60%">RESULTADOS</th>
-                <th>VALOR</th>
-            </tr>
-            <tr>
-                <td>Gastei de combustível (R$):</td>
-                <td class="result" id="c11">0.00</td>
-            </tr>
-            <tr>
-                <td>Total líquido (R$):</td>
-                <td class="result" id="c12">0.00</td>
-            </tr>
-        </table>
-
-        <table>
-            <tr>
-                <th width="60%">INFORMAÇÕES ADICIONAIS</th>
-                <th>VALOR</th>
-            </tr>
-            <tr>
-                <td>Quanto meu veículo gasta por KM (R$):</td>
-                <td id="c15">0.00</td>
-            </tr>
-            <tr>
-                <td>Quanto ganhei por cada KM (R$):</td>
-                <td id="c16">0.00</td>
-            </tr>
-            <tr>
-                <td>Valor médio por corridas (R$):</td>
-                <td id="c17">0.00</td>
-            </tr>
-            <tr>
-                <td>22 dias no mês neste ritmo você ganha (bruto) (R$):</td>
-                <td id="c18">0.00</td>
-            </tr>
-            <tr>
-                <td>30 dias no mês neste ritmo você ganha (bruto) (R$):</td>
-                <td id="c19">0.00</td>
-            </tr>
-        </table>
+    <div class="cookie-consent" id="cookieConsent">
+        Este site usa cookies para salvar os dados do formulário e evitar que você precise preencher tudo novamente em sua próxima visita. 
+        Isso permite que você mantenha suas configurações básicas salvas, precisando apenas fazer pequenas modificações diárias.
+        <button id="acceptCookies">Aceitar</button>
     </div>
 
-    <div class="btn-container">
-        <button class="action-btn print-btn" onclick="window.print()">Imprimir Relatório</button>
-        <button class="action-btn jpg-btn" onclick="exportToJPG()">Salvar como JPG (PC)</button>
-    </div>
+    <script>
+        // Atualiza a data atual
+        function updateDate() {
+            const now = new Date();
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('pt-BR', options);
+        }
 
-    <script src="js/script.js"></script>
+        // Funções para manipulação de cookies
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const cookieName = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            
+            for(let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        function saveFormData() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                setCookie(input.id, input.value, 30); // Salva por 30 dias
+            });
+        }
+
+        function loadFormData() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                const savedValue = getCookie(input.id);
+                if (savedValue !== "") {
+                    input.value = savedValue;
+                }
+            });
+            calculate(); // Recalcula com os valores carregados
+        }
+
+        // Verifica consentimento de cookies
+        function checkCookieConsent() {
+            if (getCookie("cookieConsent") !== "accepted") {
+                document.getElementById('cookieConsent').style.display = 'block';
+            } else {
+                loadFormData();
+            }
+        }
+
+        // Configura o aceite de cookies
+        document.getElementById('acceptCookies').addEventListener('click', function() {
+            setCookie("cookieConsent", "accepted", 365);
+            document.getElementById('cookieConsent').style.display = 'none';
+            loadFormData();
+        });
+
+        // Calcula todos os valores
+        function calculate() {
+            // Obter valores dos inputs
+            const recebido = parseFloat(document.getElementById('recebido').value) || 0;
+            const km = parseFloat(document.getElementById('km').value) || 0;
+            const kmLitro = parseFloat(document.getElementById('kmLitro').value) || 1;
+            const entregas = parseInt(document.getElementById('entregas').value) || 0;
+            const alimentacao = parseFloat(document.getElementById('alimentacao').value) || 0;
+            const gorjetas = parseFloat(document.getElementById('gorjetas').value) || 0;
+            const combustivel = parseFloat(document.getElementById('combustivel').value) || 0;
+            const ipva = parseFloat(document.getElementById('ipva').value) || 0;
+            const pneus = parseFloat(document.getElementById('pneus').value) || 0;
+            const oleo = parseFloat(document.getElementById('oleo').value) || 0;
+            const freio = parseFloat(document.getElementById('freio').value) || 0;
+
+            // Realizar cálculos
+            const custoCombustivel = (km / kmLitro) * combustivel;
+            const custoIpva = ipva / 365;
+            const custoPneus = (km / 30000) * pneus;
+            const custoOleo = (km / 2000) * oleo;
+            const custoFreio = (km / 40000) * freio;
+            const custosTotais = custoCombustivel + custoIpva + custoPneus + custoOleo + custoFreio + alimentacao;
+            const recebidoTotal = recebido + gorjetas;
+            const ganhoBruto = recebidoTotal - custosTotais;
+
+            // Cálculos adicionais
+            const custoKm = custosTotais / (km || 1);
+            const ganhoKm = ganhoBruto / (km || 1);
+            const valorEntrega = recebidoTotal / (entregas || 1);
+            const projecao22 = ganhoBruto * 22;
+            const projecao30 = ganhoBruto * 30;
+
+            // Atualizar a interface
+            document.getElementById('custo-combustivel').textContent = custoCombustivel.toFixed(2);
+            document.getElementById('custo-ipva').textContent = custoIpva.toFixed(2);
+            document.getElementById('custo-pneus').textContent = custoPneus.toFixed(2);
+            document.getElementById('custo-oleo').textContent = custoOleo.toFixed(2);
+            document.getElementById('custo-freio').textContent = custoFreio.toFixed(2);
+            document.getElementById('custo-alimentacao').textContent = alimentacao.toFixed(2);
+            document.getElementById('custos-totais').textContent = custosTotais.toFixed(2);
+            document.getElementById('recebido-total').textContent = recebidoTotal.toFixed(2);
+            document.getElementById('ganho-bruto').textContent = ganhoBruto.toFixed(2);
+
+            document.getElementById('custo-km').textContent = `R$ ${custoKm.toFixed(2)}/km`;
+            document.getElementById('ganho-km').textContent = `R$ ${ganhoKm.toFixed(2)}/km`;
+            document.getElementById('valor-entrega').textContent = `R$ ${valorEntrega.toFixed(2)}`;
+            document.getElementById('projecao-22').textContent = `R$ ${projecao22.toFixed(2)}`;
+            document.getElementById('projecao-30').textContent = `R$ ${projecao30.toFixed(2)}`;
+
+            // Salva os dados sempre que houver mudanças (se cookies aceitos)
+            if (getCookie("cookieConsent") === "accepted") {
+                saveFormData();
+            }
+        }
+
+        // Configurar eventos para cálculo automático
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            checkCookieConsent();
+            
+            // Adiciona event listeners a todos os inputs
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculate);
+            });
+
+            // Calcula os valores iniciais
+            calculate();
+        });
+    </script>
 </body>
 </html>
