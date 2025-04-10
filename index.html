@@ -202,7 +202,7 @@
         </div>
 
         <div class="results">
-            <h2>Resultados do Dia</h2>
+            <h2>Resultados do Dia <span id="current-date1"></span></h2>
             <table>
                 <tr>
                     <th>Item</th>
@@ -233,8 +233,8 @@
                     <td id="custo-alimentacao">0.00</td>
                 </tr>
                 <tr class="highlight">
-                    <td  style="background-color: #FF6347;"><strong>💸 Custos totais</strong></td>
-                    <td id="custos-totais"  style="background-color: #FF6347;">0.00</td>
+                    <td  style="background-color: #FFA07A;"><strong>💸 Custos totais</strong></td>
+                    <td id="custos-totais"  style="background-color: #FFA07A;">0.00</td>
                 </tr>
                 <tr>
                     <td>💵 Recebido + Gorjetas</td>
@@ -249,7 +249,7 @@
             <h2>Informações Adicionais</h2>
             <table>
                 <tr>
-                    <td>🏍 Sua moto gasta por KM rodado</td>
+                    <td>🏍 Sua moto gastou por KM rodado</td>
                     <td id="custo-km">R$ 0.00/km</td>
                 </tr>
                 <tr>
@@ -277,12 +277,12 @@
                     <td id="projecao-anual-30" style="background-color: #98FB98;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td  style="background-color: #FF6347;">💸 Custo total anual (22 dias/mês)</td>
-                    <td id="custo-anual-22"  style="background-color: #FF6347;">R$ 0.00</td>
+                    <td  style="background-color: #FFA07A;">💸 Custo total anual (22 dias/mês)</td>
+                    <td id="custo-anual-22"  style="background-color: #FFA07A;">R$ 0.00</td>
                 </tr>
                 <tr>
-                    <td  style="background-color: #FF6347;">💸 Custo total anual (30 dias/mês)</td>
-                    <td id="custo-anual-30"  style="background-color: #FF6347;">R$ 0.00</td>
+                    <td  style="background-color: #FFA07A;">💸 Custo total anual (30 dias/mês)</td>
+                    <td id="custo-anual-30"  style="background-color: #FFA07A;">R$ 0.00</td>
                 </tr>
             </table>
         </div>
@@ -362,6 +362,18 @@
             document.getElementById('current-date').textContent = now.toLocaleDateString('pt-BR', options);
         }
 
+		// Atualiza a data atual
+        function updateDate1() {
+            const now = new Date();
+            const options = { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                timeZone: 'America/Sao_Paulo'
+            };
+            document.getElementById('current-date1').textContent = now.toLocaleDateString('pt-BR', options);
+        }
+
         // Calcula todos os valores
         function calculate() {
             // Obter valores dos inputs
@@ -438,6 +450,7 @@
         // Configurar eventos quando a página carregar
         document.addEventListener('DOMContentLoaded', function() {
             updateDate();
+			updateDate1();
             checkCookieConsent();
             
             // Configurar botão de aceitar cookies
